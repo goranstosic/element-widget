@@ -9,7 +9,7 @@ interface SelectedPillProps {
 const SelectedPill: React.FC<SelectedPillProps> = ({item, handleRemoveSelectedItem}) => {
 
     return (
-        <div className="pill" key={item.id}>
+        <div className="pill">
             {item.name}
             <button onClick={() => handleRemoveSelectedItem(item.id)}>x</button>
         </div>

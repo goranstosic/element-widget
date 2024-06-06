@@ -8,10 +8,9 @@ interface ElementListProps {
     onSelectedItemsChange: (selectedItems: IElement[]) => void;
     selectedItems: IElement[];
     toggleVisibility: () => void;
-    onRemoveSelectedItem: (id: number) => void;
 }
 
-const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItemsChange, toggleVisibility, onRemoveSelectedItem}) => {
+const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItemsChange, toggleVisibility}) => {
     const [checkedElements, setCheckedElements] = useState<Record<number, boolean>>(() => {
         const initialChecked: Record<number, boolean> = {};
         selectedItems.forEach(item => {
@@ -70,7 +69,7 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
             <div>
                 <h2>Current Selected Items:</h2>
                 {currentSelectedItems.map(item => (
-                    <SelectedPill item={item} handleRemoveSelectedItem={handleRemoveSelectedItem} />
+                    <SelectedPill key={item.id} item={item} handleRemoveSelectedItem={handleRemoveSelectedItem} />
                 ))}
             </div>
         </>
