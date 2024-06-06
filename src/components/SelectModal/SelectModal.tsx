@@ -2,19 +2,21 @@ import ElementsList from "../ElementsList/ElementsList";
 import ElementFilter from "../ElementFilter/ElementFilter";
 import {SELECT_ITEMS} from "../../common/constants/widget.constants";
 import "./SelectModal.scss";
+import {IElement} from "../../common/interfaces/elements.interface";
 
 interface SelectModalProps {
-    onSelectedNamesChange: (selectedNames: string[]) => void;
-    onSelectedItemsChange: (selectedItems: number[]) => void;
-    initialSelectedItems: number[];
+    onSelectedItemsChange: (selectedItems: IElement[]) => void;
+    selectedItems: IElement[];
+    toggleVisibility: () => void;
+    onRemoveSelectedItem: (id: number) => void;
 }
 
-const SelectModal: React.FC<SelectModalProps> =({initialSelectedItems, onSelectedNamesChange, onSelectedItemsChange})=> {
+const SelectModal: React.FC<SelectModalProps> =({selectedItems, onSelectedItemsChange, toggleVisibility, onRemoveSelectedItem})=> {
     return (
         <div className="modal">
             <p>{SELECT_ITEMS}</p>
             <ElementFilter />
-            <ElementsList initialSelectedItems={initialSelectedItems} onSelectedNamesChange={onSelectedNamesChange} onSelectedItemsChange={onSelectedItemsChange}/>
+            <ElementsList toggleVisibility={toggleVisibility} selectedItems={selectedItems} onSelectedItemsChange={onSelectedItemsChange} onRemoveSelectedItem={onRemoveSelectedItem}/>
         </div>
     )
 }

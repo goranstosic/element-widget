@@ -2,18 +2,20 @@ import SelectModal from "../SelectModal/SelectModal";
 import SelectedItems from "../SelectedItems/SelectedItems";
 import {CHANGE_MY_CHOICE, SELECT_ITEMS} from "../../common/constants/widget.constants";
 import {useState} from "react";
+import {IElement} from "../../common/interfaces/elements.interface";
 
 const ElementWidget = () => {
     const [toggleModal, setToggleModal] = useState<boolean>(false);
-    const [parentSelectedNames, setParentSelectedNames] = useState<string[]>([]);
-    const [initialSelectedItems, setInitialSelectedItems] = useState<number[]>([1, 2]); // IDs of elements to be initially selected
+    const [selectedItems, setSelectedItems] = useState<IElement[]>([{ id:1, name: 'Element 1'}, {id:2, name: 'Element 2'}]);
 
-    const handleSelectedNamesChange = (selectedNames: string[]) => {
-        setParentSelectedNames(selectedNames);
+    const handleSelectedItemsChange = (selectedItems: IElement[]) => {
+        setSelectedItems(selectedItems);
     };
 
-    const handleSelectedItemsChange = (selectedItems: number[]) => {
-        setInitialSelectedItems(selectedItems);
+    const handleRemoveSelectedItem = (id: number) => {
+        setSelectedItems(prevItems =>
+            prevItems.filter(item => item.id !== id)
+        );
     };
 
     const toggleVisibility = () => {
@@ -23,17 +25,10 @@ const ElementWidget = () => {
     return (
         <div>
             <p>{SELECT_ITEMS}</p>
-            {/*<SelectedItems />*/}
-            <div>
-                <h2>Selected Names in Parent Component:</h2>
-                {parentSelectedNames.map(name => (
-                    <div key={name}>{name}</div>
-                ))}
-            </div>
+            <SelectedItems selectedItems={selectedItems} />
             <button onClick={toggleVisibility}>{CHANGE_MY_CHOICE}</button>
             {toggleModal &&
-                <SelectModal onSelectedNamesChange={handleSelectedNamesChange} initialSelectedItems={initialSelectedItems}
-                             onSelectedItemsChange={handleSelectedItemsChange} /> }
+                <SelectModal toggleVisibility={toggleVisibility} selectedItems={selectedItems} onSelectedItemsChange={handleSelectedItemsChange} onRemoveSelectedItem={handleRemoveSelectedItem} /> }
         </div>
     )
 }
