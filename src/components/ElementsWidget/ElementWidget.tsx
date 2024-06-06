@@ -6,11 +6,14 @@ import {useState} from "react";
 const ElementWidget = () => {
     const [toggleModal, setToggleModal] = useState<boolean>(false);
     const [parentSelectedNames, setParentSelectedNames] = useState<string[]>([]);
-
-    const initialSelectedItems = [1, 2]; // IDs of elements to be initially selected
+    const [initialSelectedItems, setInitialSelectedItems] = useState<number[]>([1, 2]); // IDs of elements to be initially selected
 
     const handleSelectedNamesChange = (selectedNames: string[]) => {
         setParentSelectedNames(selectedNames);
+    };
+
+    const handleSelectedItemsChange = (selectedItems: number[]) => {
+        setInitialSelectedItems(selectedItems);
     };
 
     const toggleVisibility = () => {
@@ -29,7 +32,8 @@ const ElementWidget = () => {
             </div>
             <button onClick={toggleVisibility}>{CHANGE_MY_CHOICE}</button>
             {toggleModal &&
-                <SelectModal onSelectedNamesChange={handleSelectedNamesChange} initialSelectedItems={initialSelectedItems}/>}
+                <SelectModal onSelectedNamesChange={handleSelectedNamesChange} initialSelectedItems={initialSelectedItems}
+                             onSelectedItemsChange={handleSelectedItemsChange} /> }
         </div>
     )
 }

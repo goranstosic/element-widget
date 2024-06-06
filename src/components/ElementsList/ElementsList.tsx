@@ -4,10 +4,11 @@ import "./ElementsList.scss";
 
 interface ElementListProps {
     onSelectedNamesChange: (selectedNames: string[]) => void;
+    onSelectedItemsChange: (selectedItems: number[]) => void;
     initialSelectedItems: number[];
 }
 
-const ElementsList: React.FC<ElementListProps> = ({initialSelectedItems, onSelectedNamesChange}) => {
+const ElementsList: React.FC<ElementListProps> = ({initialSelectedItems, onSelectedNamesChange, onSelectedItemsChange}) => {
     const [checkedElements, setCheckedElements] = useState<Record<number, boolean>>(() => {
         const initialChecked: Record<number, boolean> = {};
         initialSelectedItems.forEach(id => {
@@ -28,8 +29,8 @@ const ElementsList: React.FC<ElementListProps> = ({initialSelectedItems, onSelec
     const handleSave = () => {
         const selectedItems = DUMMY_DATA_ELEMENTS.filter(element => checkedElements[element.id]);
         onSelectedNamesChange(selectedItems.map(item => item.name));
+        onSelectedItemsChange(selectedItems.map(item => item.id));
         console.log("Selected items:", selectedItems);
-        // You can call an API, update state, or perform any other action to save the selected items
     };
 
     const selectedItems = DUMMY_DATA_ELEMENTS.filter(element => checkedElements[element.id]);
