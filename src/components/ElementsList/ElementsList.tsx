@@ -8,9 +8,11 @@ interface ElementListProps {
     onSelectedItemsChange: (selectedItems: IElement[]) => void;
     selectedItems: IElement[];
     toggleVisibility: () => void;
+    searchQuery: string;
+    selectedFilter: string;
 }
 
-const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItemsChange, toggleVisibility}) => {
+const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItemsChange, toggleVisibility, searchQuery, selectedFilter }) => {
     const [checkedElements, setCheckedElements] = useState<Record<number, boolean>>(() => {
         const initialChecked: Record<number, boolean> = {};
         selectedItems.forEach(item => {
@@ -18,6 +20,19 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
         });
         return initialChecked;
     });
+    const filteredElements = DUMMY_DATA_ELEMENTS.filter(element => {
+        const lowercaseName = element.name.toLowerCase();
+        if (selectedFilter === 'greaterThan10') {
+            return /\d{2}/.test(lowercaseName) && parseInt(lowercaseName.match(/\d{2}/)![0]) > 10;
+        } else if (selectedFilter === 'greaterThan100') {
+            return /\d{3}/.test(lowercaseName) && parseInt(lowercaseName.match(/\d{3}/)![0]) > 100;
+        } else if (selectedFilter === 'greaterThan200') {
+            return /\d{3}/.test(lowercaseName) && parseInt(lowercaseName.match(/\d{3}/)![0]) > 200;
+        }
+        return true; // Default: no filter applied
+    }).filter(element =>
+        element.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const selectedCount = Object.values(checkedElements).filter(Boolean).length;
     const currentSelectedItems = DUMMY_DATA_ELEMENTS.filter(element => checkedElements[element.id]);
@@ -50,7 +65,7 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
         <>
             <div className="elements-list">
                 <ul>
-                    {DUMMY_DATA_ELEMENTS.map(element => (
+                    {filteredElements.map(element => (
                         <li key={element.id}>
                             <input
                                 type="checkbox"
