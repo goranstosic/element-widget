@@ -25,10 +25,10 @@ const ElementWidget = () => {
     return (
         <div>
             <p>{SELECT_ITEMS}</p>
-            <SelectedItems selectedItems={selectedItems} />
+            <SelectedItems selectedItems={selectedItems} onRemoveSelectedItem={handleRemoveSelectedItem} />
             <button onClick={toggleVisibility}>{CHANGE_MY_CHOICE}</button>
             {toggleModal &&
-                <SelectModal toggleVisibility={toggleVisibility} selectedItems={selectedItems} onSelectedItemsChange={handleSelectedItemsChange} onRemoveSelectedItem={handleRemoveSelectedItem} /> }
+                <SelectModal toggleVisibility={toggleVisibility} selectedItems={selectedItems} onSelectedItemsChange={handleSelectedItemsChange}/> }
         </div>
     )
 }

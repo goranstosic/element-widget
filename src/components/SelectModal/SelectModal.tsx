@@ -8,15 +8,14 @@ interface SelectModalProps {
     onSelectedItemsChange: (selectedItems: IElement[]) => void;
     selectedItems: IElement[];
     toggleVisibility: () => void;
-    onRemoveSelectedItem: (id: number) => void;
 }
 
-const SelectModal: React.FC<SelectModalProps> =({selectedItems, onSelectedItemsChange, toggleVisibility, onRemoveSelectedItem})=> {
+const SelectModal: React.FC<SelectModalProps> =({selectedItems, onSelectedItemsChange, toggleVisibility })=> {
     return (
         <div className="modal">
             <p>{SELECT_ITEMS}</p>
             <ElementFilter />
-            <ElementsList toggleVisibility={toggleVisibility} selectedItems={selectedItems} onSelectedItemsChange={onSelectedItemsChange} onRemoveSelectedItem={onRemoveSelectedItem}/>
+            <ElementsList toggleVisibility={toggleVisibility} selectedItems={selectedItems} onSelectedItemsChange={onSelectedItemsChange}/>
         </div>
     )
 }
