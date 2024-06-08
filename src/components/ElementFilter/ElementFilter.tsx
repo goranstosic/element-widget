@@ -1,6 +1,13 @@
 import React from "react";
 import "./ElementFilter.scss";
-import {FILTER, SEARCH} from "../../common/constants/widget.constants";
+import {
+    FILTER,
+    GREATER_THAN_10,
+    GREATER_THAN_100,
+    GREATER_THAN_200,
+    NO_FILTER,
+    SEARCH
+} from "../../common/constants/widget.constants";
 
 interface ElementFilterProps {
     searchQuery: string;
@@ -29,10 +36,10 @@ const ElementFilter: React.FC<ElementFilterProps> = ({searchQuery, setSearchQuer
             <div>
                 <span>{FILTER}</span>
                 <select value={selectedFilter} onChange={handleFilterChange}>
-                    <option value="all">No filter</option>
-                    <option value="greaterThan10">Number &gt; 10</option>
-                    <option value="greaterThan100">Number &gt; 100</option>
-                    <option value="greaterThan200">Number &gt; 200</option>
+                    <option value="all">{NO_FILTER}</option>
+                    <option value="greaterThan10">{GREATER_THAN_10}</option>
+                    <option value="greaterThan100">{GREATER_THAN_100}</option>
+                    <option value="greaterThan200">{GREATER_THAN_200}</option>
                 </select>
             </div>
         </div>
