@@ -13,7 +13,7 @@ interface SelectModalProps {
 
 const SelectModal: React.FC<SelectModalProps> =({selectedItems, onSelectedItemsChange, toggleVisibility })=> {
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedFilter, setSelectedFilter] = useState('all');
+    const [selectedFilter, setSelectedFilter] = useState("No filter");
 
     return (
         <div className="select-modal">

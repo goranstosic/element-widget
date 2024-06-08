@@ -1,7 +1,8 @@
-import {DUMMY_DATA_ELEMENTS} from "../../dummyData";
 import {useEffect, useState} from "react";
 import {IElement} from "../../common/interfaces/elements.interface";
 import SelectedPill from "../SelectedPill/SelectedPill";
+import {DUMMY_DATA_ELEMENTS} from "../../dummyData";
+import {CLOSE, CURRENT_SELECTED_ITEMS, NO_RESULTS_FOUND, SAVE} from "../../common/constants/widget.constants";
 import "./ElementsList.scss";
 
 interface ElementListProps {
@@ -68,7 +69,7 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
         <div className="elements-list">
             <div className="elements-list__inner">
                 {filteredElements.length === 0 ? (
-                    <p>No results found.</p>
+                    <p>{NO_RESULTS_FOUND}</p>
                 ) : (
                     <ul>
                         {filteredElements.map(element => (
@@ -87,15 +88,15 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
                 )}
             </div>
             <div>
-                <p>Current Selected Items:</p>
+                <p>{CURRENT_SELECTED_ITEMS}</p>
                 <div className="elements-list__selected-pills">
                     {currentSelectedItems.map(item => (
                         <SelectedPill key={item.id} item={item} handleRemoveSelectedItem={handleRemoveSelectedItem}/>
                     ))}
                 </div>
             </div>
-            <button className="elements-list__button save" onClick={handleSave}>Save</button>
-            <button className="elements-list__button cancel" onClick={handleClose}>Close</button>
+            <button className="elements-list__button save" onClick={handleSave}>{SAVE}</button>
+            <button className="elements-list__button cancel" onClick={handleClose}>{CLOSE}</button>
         </div>
     )
 }
