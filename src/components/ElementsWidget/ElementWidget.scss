@@ -1,0 +1,17 @@
+.element-widget {
+  background: var(--white);
+  width: 514px;
+  padding: var(--padding);
+
+  h2 {
+    font-size: var(--heading-h2);
+    margin-bottom: calc(1.7857 * var(--text-base));
+  }
+
+  &__button {
+    background: var(--green);
+    color: var(--white);
+    padding: var(--button-padding);
+  }
+
+}

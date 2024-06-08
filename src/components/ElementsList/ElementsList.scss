@@ -1,4 +1,45 @@
 .elements-list {
-  height: 300px;
-  overflow: auto;
+
+  &__inner {
+    height: 300px;
+    overflow: auto;
+    background: var(--black);
+    padding: calc(0.7143 * var(--text-base)) calc(1.4286 * var(--text-base));
+    margin-bottom: calc(1.4286 * var(--text-base));
+  }
+
+  p {
+    margin-bottom: calc(0.5 * var(--text-base));
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+    }
+
+  }
+
+  &__selected-pills {
+    margin: var(--medium-margin) 0;
+    display: flex;
+    gap: var(--small-margin);
+  }
+
+  &__button {
+    padding: var(--button-padding);
+    color: var(--white);
+  }
+
+  &__button.save {
+    background: var(--green);
+    margin-right: var(--medium-margin);
+  }
+
+  &__button.cancel {
+    background: var(--red);
+  }
+
 }

@@ -1,4 +1,17 @@
-.modal {
-  background: black;
-  color: white;
+.select-modal {
+  background: var(--modal-background);
+  color: var(--white);
+  padding: calc(1.4286 * var(--text-base));
+  margin-top: calc(2.1429 * var(--text-base));
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--medium-margin);
+
+    &__close-button {
+      color: var(--white);
+    }
+
+  }
 }

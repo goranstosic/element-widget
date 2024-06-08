@@ -1,8 +1,8 @@
 import {DUMMY_DATA_ELEMENTS} from "../../dummyData";
-import {useState} from "react";
-import "./ElementsList.scss";
+import {useEffect, useState} from "react";
 import {IElement} from "../../common/interfaces/elements.interface";
 import SelectedPill from "../SelectedPill/SelectedPill";
+import "./ElementsList.scss";
 
 interface ElementListProps {
     onSelectedItemsChange: (selectedItems: IElement[]) => void;
@@ -13,13 +13,16 @@ interface ElementListProps {
 }
 
 const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItemsChange, toggleVisibility, searchQuery, selectedFilter }) => {
-    const [checkedElements, setCheckedElements] = useState<Record<number, boolean>>(() => {
-        const initialChecked: Record<number, boolean> = {};
-        selectedItems.forEach(item => {
-            initialChecked[item.id] = true;
-        });
-        return initialChecked;
-    });
+    const [checkedElements, setCheckedElements] = useState<{ [key: string]: boolean }>({});
+
+    useEffect(() => {
+        const initialCheckedState = selectedItems.reduce((acc, item) => {
+            acc[item.id] = true;
+            return acc;
+        }, {} as { [key: string]: boolean });
+        setCheckedElements(initialCheckedState);
+    }, [selectedItems]);
+
     const filteredElements = DUMMY_DATA_ELEMENTS.filter(element => {
         const lowercaseName = element.name.toLowerCase();
         if (selectedFilter === 'greaterThan10') {
@@ -62,32 +65,38 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
     };
 
     return (
-        <>
-            <div className="elements-list">
-                <ul>
-                    {filteredElements.map(element => (
-                        <li key={element.id}>
-                            <input
-                                type="checkbox"
-                                id={`checkbox-${element.id}`}
-                                checked={checkedElements[element.id] || false}
-                                onChange={() => handleCheckboxChange(element.id)}
-                                disabled={!checkedElements[element.id] && selectedCount >= 3}
-                            />
-                            <label htmlFor={`checkbox-${element.id}`}>{element.name}</label>
-                        </li>
-                    ))}
-                </ul>
+        <div className="elements-list">
+            <div className="elements-list__inner">
+                {filteredElements.length === 0 ? (
+                    <p>No results found.</p>
+                ) : (
+                    <ul>
+                        {filteredElements.map(element => (
+                            <li key={element.id}>
+                                <input
+                                    type="checkbox"
+                                    id={`checkbox-${element.id}`}
+                                    checked={checkedElements[element.id] || false}
+                                    onChange={() => handleCheckboxChange(element.id)}
+                                    disabled={!checkedElements[element.id] && selectedCount >= 3}
+                                />
+                                <label htmlFor={`checkbox-${element.id}`}>{element.name}</label>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </div>
-            <button onClick={handleSave}>Save</button>
-            <button onClick={handleClose}>Close</button>
             <div>
-                <h2>Current Selected Items:</h2>
-                {currentSelectedItems.map(item => (
-                    <SelectedPill key={item.id} item={item} handleRemoveSelectedItem={handleRemoveSelectedItem} />
-                ))}
+                <p>Current Selected Items:</p>
+                <div className="elements-list__selected-pills">
+                    {currentSelectedItems.map(item => (
+                        <SelectedPill key={item.id} item={item} handleRemoveSelectedItem={handleRemoveSelectedItem}/>
+                    ))}
+                </div>
             </div>
-        </>
+            <button className="elements-list__button save" onClick={handleSave}>Save</button>
+            <button className="elements-list__button cancel" onClick={handleClose}>Close</button>
+        </div>
     )
 }
 
