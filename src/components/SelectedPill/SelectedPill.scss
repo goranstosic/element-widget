@@ -1,0 +1,20 @@
+.selected-pill {
+  background: var(--black);
+  color: var(--white);
+  padding: var(--pill-padding);
+  width: calc(10.142857 * var(--text-base));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: calc(0.3571 * var(--text-base));
+
+  span {
+    width: 100%;
+    border-right: 1px solid var(--lightest-gray);
+  }
+
+  button {
+    color: var(--white);
+  }
+
+}
