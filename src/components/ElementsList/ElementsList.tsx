@@ -15,6 +15,7 @@ interface ElementListProps {
 
 const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItemsChange, toggleVisibility, searchQuery, selectedFilter }) => {
     const [checkedElements, setCheckedElements] = useState<{ [key: string]: boolean }>({});
+    const [items, setItems] = useState(DUMMY_DATA_ELEMENTS)
 
     useEffect(() => {
         const initialCheckedState = selectedItems.reduce((acc, item) => {
@@ -24,19 +25,20 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
         setCheckedElements(initialCheckedState);
     }, [selectedItems]);
 
-    const filteredElements = DUMMY_DATA_ELEMENTS.filter(element => {
-        const lowercaseName = element.name.toLowerCase();
-        if (selectedFilter === 'greaterThan10') {
-            return /\d{2}/.test(lowercaseName) && parseInt(lowercaseName.match(/\d{2}/)![0]) > 10;
-        } else if (selectedFilter === 'greaterThan100') {
-            return /\d{3}/.test(lowercaseName) && parseInt(lowercaseName.match(/\d{3}/)![0]) > 100;
-        } else if (selectedFilter === 'greaterThan200') {
-            return /\d{3}/.test(lowercaseName) && parseInt(lowercaseName.match(/\d{3}/)![0]) > 200;
-        }
-        return true; // Default: no filter applied
-    }).filter(element =>
-        element.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    useEffect(()=> {
+        const newFilteredItems = DUMMY_DATA_ELEMENTS.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())).filter(item => {
+            switch(selectedFilter) {
+                case 'greaterThan10':
+                    return item.id > 10;
+                case 'greaterThan100':
+                    return item.id > 100;
+                case 'greaterThan200':
+                    return item.id > 200;
+                default: return true;
+            }
+        })
+        setItems(newFilteredItems)
+    }, [searchQuery, selectedFilter])
 
     const selectedCount = Object.values(checkedElements).filter(Boolean).length;
     const currentSelectedItems = DUMMY_DATA_ELEMENTS.filter(element => checkedElements[element.id]);
@@ -54,9 +56,7 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
         toggleVisibility();
     };
 
-    const handleClose = () => {
-        toggleVisibility();
-    }
+    const handleClose = () => toggleVisibility();
 
     const handleRemoveSelectedItem = (id: number) => {
         setCheckedElements(prevState => ({
@@ -68,11 +68,11 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
     return (
         <div className="elements-list">
             <div className="elements-list__inner">
-                {filteredElements.length === 0 ? (
+                {items.length === 0 ? (
                     <p>{NO_RESULTS_FOUND}</p>
                 ) : (
                     <ul>
-                        {filteredElements.map(element => (
+                        {items.map(element => (
                             <li key={element.id}>
                                 <input
                                     type="checkbox"
