@@ -24,11 +24,8 @@
 
 ## Technical Conditions
 
-- Main technologies: React.js or Native JS + Web Components
-- Using TypeScript is a big plus.
-- Preferred state manager: MobX.
-- Usage of UI frameworks such as Bootstrap, Tailwind, etc., and component libraries is highly undesirable but allowed.
-- Emphasis is on JavaScript and its implementation, appearance is up to you.
+- ReactJS
+- TypeScript
 
 ## Widget Concept
 
