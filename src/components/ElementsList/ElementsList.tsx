@@ -26,7 +26,7 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
     }, [selectedItems]);
 
     useEffect(()=> {
-        const newFilteredItems = DUMMY_DATA_ELEMENTS.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())).filter(item => {
+        const newFilteredItems = items.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase())).filter(item => {
             switch(selectedFilter) {
                 case 'greaterThan10':
                     return item.id > 10;
@@ -41,7 +41,7 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
     }, [searchQuery, selectedFilter])
 
     const selectedCount = Object.values(checkedElements).filter(Boolean).length;
-    const currentSelectedItems = DUMMY_DATA_ELEMENTS.filter(element => checkedElements[element.id]);
+    const currentSelectedItems = items.filter(element => checkedElements[element.id]);
 
     const handleCheckboxChange = (id: number) => {
         setCheckedElements(prevState => ({
@@ -51,7 +51,7 @@ const ElementsList: React.FC<ElementListProps> = ({selectedItems, onSelectedItem
     }
 
     const handleSave = () => {
-        const newSelectedItems = DUMMY_DATA_ELEMENTS.filter(element => checkedElements[element.id]);
+        const newSelectedItems = items.filter(element => checkedElements[element.id]);
         onSelectedItemsChange(newSelectedItems);
         toggleVisibility();
     };
